@@ -2,73 +2,50 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: sans-serif;
-  margin: 20px;
-  padding: 0;
-}
-
 h1 {
+  text-align: center;
   margin-top: 0;
-  font-size: 22px;
-}
-
-h2 {
-  margin-top: 0;
-  font-size: 20px;
-}
-
-h3 {
-  margin-top: 0;
-  font-size: 18px;
-}
-
-h4 {
-  margin-top: 0;
-  font-size: 16px;
-}
-
-h5 {
-  margin-top: 0;
-  font-size: 14px;
-}
-
-h6 {
-  margin-top: 0;
-  font-size: 12px;
-}
-
-code {
-  font-size: 1.2em;
-}
-
-ul {
-  padding-inline-start: 20px;
-}
-
-* {
-  box-sizing: border-box;
+  font-size: 50px;
+  color: #FFFFFF;
+  font-family: Phantomsans, sans-serif;
 }
 
 body {
   font-family: sans-serif;
   margin: 20px;
   padding: 0;
+  background: rgb(0, 255, 253);
+  background: linear-gradient(90deg, rgba(0, 255, 253, 1) 0%, rgba(9, 9, 121, 1) 36%, rgba(255, 0, 232, 1) 100%);
+
+}
+
+.contain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
 }
 
 .square {
-  background: #fff;
+  background: transparent;
+  backdrop-filter: blur(100px);
   border: 1px solid #999;
   float: left;
-  font-size: 24px;
+  font-size: 80px;
   font-weight: bold;
+  color: aliceblue;
   line-height: 34px;
-  height: 34px;
   margin-right: -1px;
   margin-top: -1px;
   padding: 0;
   text-align: center;
-  width: 34px;
+  width: 100px;
+  height: 100px;
+}
+
+.board-row {
+  display: flex;
 }
 
 .board-row:after {
@@ -78,13 +55,56 @@ body {
 }
 
 .status {
-  margin-bottom: 10px;
-}
-.game {
-  display: flex;
-  flex-direction: row;
+  display: block;
+  margin-bottom: 30px;
 }
 
-.game-info {
-  margin-left: 20px;
+.btn-container {
+  display: grid;
+  grid-template-columns: 200px 200px;
+  justify-content: center;
+
+}
+
+.btn {
+  align-items: center;
+  background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
+  border: 0;
+  border-radius: 8px;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  display: flex;
+  font-family: Phantomsans, sans-serif;
+  font-size: 20px;
+  justify-content: center;
+  line-height: 1em;
+  max-width: 100%;
+  min-width: 140px;
+  padding: 3px;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  cursor: pointer;
+  margin: 15px;
+}
+
+.btn:active,
+.btn:hover {
+  outline: 0;
+}
+
+.btn span {
+  background-color: rgb(5, 6, 45);
+  padding: 16px 24px;
+  border-radius: 6px;
+  width: 100%;
+  height: 100%;
+  transition: 300ms;
+}
+
+.btn:hover span {
+  background: none;
 }

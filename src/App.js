@@ -2,14 +2,14 @@
 import { useState } from 'react'
 
 //component with property, must use brackets to call variable
-function Square ({ value, onSquareClick }) {
+function Square({ value, onSquareClick }) {
   //states for a individual square, values stores the value and setValue is a function that can change the value.
   //null passed as initial state
   //const [value, setValue] = useState(null);
   //interactive component
- // function handleClick(){
-    //setValue('X');
-    //each square has its own state 
+  // function handleClick(){
+  //setValue('X');
+  //each square has its own state 
   //}
 
   return (<button className="square" onClick={onSquareClick}> {value} </button>);
@@ -26,10 +26,16 @@ function Square ({ value, onSquareClick }) {
 export default function Board() {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
+  const [game, setGame] = useState(false);
+  let status = "Welcome! Press 'Start Game' to get started";
 
-  function handleClick(i){
+  function handleStartClick() {
+    setGame(true);
+    return;
+  }
+  function handleSquareClick(i) {
     //check if theres already a value for the square
-    if (squares[i] || calculateWinner(squares)){
+    if (squares[i] || calculateWinner(squares)) {
       return;
     }
     //creates a copy of the squares array
@@ -39,13 +45,11 @@ export default function Board() {
     //immutability makes it very cheap for components to compare whether their daa has changes or not
 
     //updates the nextSquares array to add X or O to the ith square
-    if (xIsNext){
+    if (xIsNext) {
       nextSquares[i] = "X";
     } else {
       nextSquares[i] = "O";
     }
-    
-    
     //calling the setSquares function lets react know the state of the component has changes
     // this will trigger re render of the components that use the squares states (the board)
     // as well as its child components (the squares that make up the board)
@@ -53,33 +57,47 @@ export default function Board() {
     setXIsNext(!xIsNext);
     // () => is an arrow function, when the square is clicked the code after => will run
   }
-  const winner = calculateWinner(squares);
-  let status;
-  if (winner) {
-    status = "Winner: " + winner;
-  } else {
-    status = "Next player: " + (xIsNext ? "X" : "O");
+  if (game) {
+    const winner = calculateWinner(squares);
+
+    if (winner == "X" || winner == "O") {
+      status = "Winner: " + winner;
+    } else if (winner == null) {
+      status = "Next player: " + (xIsNext ? "X" : "O");
+    }
+    else {
+      status = "Its a draw!";
+    }
   }
+
   return (
     // <> Fragments wrap multiple adjacent JSX elements
     <>
-    <div classname="status">{status}</div>
-      <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} /> 
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
+      <h1 className="status">{status}</h1>
+      <div className="btn-container">
+        <button className="btn" onClick={() => handleStartClick()}><span>Start Game</span></button>
+        <button className="btn" onClick={() => window.location.reload(false)}><span>New Game</span></button>
       </div>
-      <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)}/>
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)}/>
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)}/>
+
+      <div className="contain">
+        <div className="board-row">
+          <Square value={squares[0]} onSquareClick={() => handleSquareClick(0)} />
+          <Square value={squares[1]} onSquareClick={() => handleSquareClick(1)} />
+          <Square value={squares[2]} onSquareClick={() => handleSquareClick(2)} />
+        </div>
+        <div className="board-row">
+          <Square value={squares[3]} onSquareClick={() => handleSquareClick(3)} />
+          <Square value={squares[4]} onSquareClick={() => handleSquareClick(4)} />
+          <Square value={squares[5]} onSquareClick={() => handleSquareClick(5)} />
+        </div>
+        <div className="board-row">
+          <Square value={squares[6]} onSquareClick={() => handleSquareClick(6)} />
+          <Square value={squares[7]} onSquareClick={() => handleSquareClick(7)} />
+          <Square value={squares[8]} onSquareClick={() => handleSquareClick(8)} />
+        </div>
       </div>
-      <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)}/>
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)}/>
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)}/>
-      </div>
-      <button onClick={() => window.location.reload(false)}>New Game</button>
+
+
     </>
   );
 }
@@ -95,15 +113,18 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6]
   ];
+  let empty = false;
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
     }
+    else if (squares[a] == null || squares[b] == null || squares[c] == null) {
+      empty = true;
+    }
   }
-  return null;
-}
-
-function Restart(){
-
+  if (empty) {
+    return null;
+  }
+  return "none";
 }
