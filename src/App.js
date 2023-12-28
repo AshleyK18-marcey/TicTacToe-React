@@ -34,28 +34,32 @@ export default function Board() {
     return;
   }
   function handleSquareClick(i) {
-    //check if theres already a value for the square
-    if (squares[i] || calculateWinner(squares)) {
-      return;
-    }
-    //creates a copy of the squares array
-    const nextSquares = squares.slice();
-    // immutability makes complex features easier to implement
-    // avoiding direct data mutation allows for the tracking of previous versions
-    //immutability makes it very cheap for components to compare whether their daa has changes or not
+    //check if the game has started
+    if (game) {
+      //check if theres already a value for the square
+      if (squares[i] || calculateWinner(squares)) {
+        return;
+      }
+      //creates a copy of the squares array
+      const nextSquares = squares.slice();
+      // immutability makes complex features easier to implement
+      // avoiding direct data mutation allows for the tracking of previous versions
+      //immutability makes it very cheap for components to compare whether their daa has changes or not
 
-    //updates the nextSquares array to add X or O to the ith square
-    if (xIsNext) {
-      nextSquares[i] = "X";
-    } else {
-      nextSquares[i] = "O";
+      //updates the nextSquares array to add X or O to the ith square
+      if (xIsNext) {
+        nextSquares[i] = "X";
+      } else {
+        nextSquares[i] = "O";
+      }
+      //calling the setSquares function lets react know the state of the component has changes
+      // this will trigger re render of the components that use the squares states (the board)
+      // as well as its child components (the squares that make up the board)
+      setSquares(nextSquares);
+      setXIsNext(!xIsNext);
+      // () => is an arrow function, when the square is clicked the code after => will run
     }
-    //calling the setSquares function lets react know the state of the component has changes
-    // this will trigger re render of the components that use the squares states (the board)
-    // as well as its child components (the squares that make up the board)
-    setSquares(nextSquares);
-    setXIsNext(!xIsNext);
-    // () => is an arrow function, when the square is clicked the code after => will run
+    
   }
   if (game) {
     const winner = calculateWinner(squares);
